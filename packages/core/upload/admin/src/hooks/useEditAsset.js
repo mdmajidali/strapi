@@ -15,7 +15,14 @@ const editAssetRequest = (asset, file, cancelToken, onProgress) => {
     formData.append('files', file);
   }
 
-  formData.append('fileInfo', JSON.stringify({}));
+  formData.append(
+    'fileInfo',
+    JSON.stringify({
+      alternativeText: asset.alternativeText,
+      caption: asset.caption,
+      name: asset.name,
+    })
+  );
 
   return axiosInstance({
     method: 'post',
@@ -39,7 +46,6 @@ export const useEditAsset = () => {
     (asset, file) => editAssetRequest(asset, file, tokenRef.current, setProgress),
     {
       onSuccess: assetUpdated => {
-        console.log('lol', assetUpdated);
         // Coupled with the cache of useAssets
         // queryClient.setQueryData('assets', cachedAssets => cachedAssets.concat(assets));
       },
@@ -49,7 +55,7 @@ export const useEditAsset = () => {
     }
   );
 
-  const editAsset = async (asset, file = undefined) => mutation.mutateAsync(asset, file);
+  const editAsset = (asset, file) => mutation.mutateAsync(asset, file);
   const cancel = () =>
     tokenRef.current.cancel(
       formatMessage({ id: getTrad('modal.upload.cancelled'), defaultMessage: '' })

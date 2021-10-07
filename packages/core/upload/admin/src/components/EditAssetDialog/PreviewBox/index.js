@@ -34,6 +34,7 @@ export const PreviewBox = ({ asset, onDelete }) => {
 
   const handleCropping = async () => {
     const nextAsset = { ...asset, width, height };
+
     const file = await produceFile(nextAsset.name, nextAsset.mime, nextAsset.updatedAt);
 
     await editAsset(nextAsset, file);
