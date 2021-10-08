@@ -219,7 +219,7 @@ describe('<EditAssetDialog />', () => {
         background: #ffffff;
       }
 
-      .c43 .sc-kKXAKc {
+      .c43 .sc-hTZspN {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -291,7 +291,7 @@ describe('<EditAssetDialog />', () => {
         background: #f0f0ff;
       }
 
-      .c46 .sc-kKXAKc {
+      .c46 .sc-hTZspN {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -373,7 +373,7 @@ describe('<EditAssetDialog />', () => {
         background: #4945ff;
       }
 
-      .c47 .sc-kKXAKc {
+      .c47 .sc-hTZspN {
         display: -webkit-box;
         display: -webkit-flex;
         display: -ms-flexbox;

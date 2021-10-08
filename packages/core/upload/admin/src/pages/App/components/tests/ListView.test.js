@@ -770,7 +770,7 @@ describe('MediaLibrary / ListView', () => {
                   <img
                     aria-hidden="true"
                     class="c8"
-                    src="http://localhost:1337/uploads/thumbnail_strapi_cover_1fabc982ce_5b43615ed5.png"
+                    src="http://localhost:1337/uploads/thumbnail_strapi_cover_1fabc982ce_5b43615ed5.png?width=1066&height=551"
                   />
                 </div>
               </div>
@@ -1054,7 +1054,7 @@ describe('MediaLibrary / ListView', () => {
             </div>
             <nav
               aria-label="pagination"
-              class="sc-gmAFnh"
+              class="sc-jLfekY"
             >
               <ul
                 class="c46 c47"

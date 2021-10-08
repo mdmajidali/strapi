@@ -43,11 +43,12 @@ export const useEditAsset = () => {
   const tokenRef = useRef(axios.CancelToken.source());
 
   const mutation = useMutation(
-    (asset, file) => editAssetRequest(asset, file, tokenRef.current, setProgress),
+    ({ asset, file }) => editAssetRequest(asset, file, tokenRef.current, setProgress),
     {
       onSuccess: assetUpdated => {
-        // Coupled with the cache of useAssets
-        // queryClient.setQueryData('assets', cachedAssets => cachedAssets.concat(assets));
+        queryClient.setQueryData('assets', cachedAssets =>
+          cachedAssets.map(asset => (asset.id === assetUpdated.id ? { ...assetUpdated } : asset))
+        );
       },
       onError: error => {
         toggleNotification({ type: 'warning', message: error.message });
@@ -55,7 +56,8 @@ export const useEditAsset = () => {
     }
   );
 
-  const editAsset = (asset, file) => mutation.mutateAsync(asset, file);
+  const editAsset = (asset, file) => mutation.mutateAsync({ asset, file });
+
   const cancel = () =>
     tokenRef.current.cancel(
       formatMessage({ id: getTrad('modal.upload.cancelled'), defaultMessage: '' })

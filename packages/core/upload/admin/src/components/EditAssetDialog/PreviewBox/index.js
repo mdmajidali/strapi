@@ -25,19 +25,23 @@ import { UploadProgress } from '../../UploadProgress';
 
 export const PreviewBox = ({ asset, onDelete }) => {
   const previewRef = useRef(null);
+  const [assetUrl, setAssetUrl] = useState(prefixFileUrlWithBackendUrl(asset.url));
   const { formatMessage } = useIntl();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { crop, produceFile, stopCropping, isCropping, width, height } = useCropImg();
   const { editAsset, error, isLoading, progress, cancel } = useEditAsset();
 
-  const assetUrl = prefixFileUrlWithBackendUrl(asset.url);
-
   const handleCropping = async () => {
     const nextAsset = { ...asset, width, height };
-
     const file = await produceFile(nextAsset.name, nextAsset.mime, nextAsset.updatedAt);
 
     await editAsset(nextAsset, file);
+
+    // Making sure that when persistent the new asset, the URL changes with width and height
+    // So that the browser makes a request and handle the image caching correctly at the good size
+    const optimizedCachingImage = `${asset.url}?width=${width}&height=${height}`;
+    setAssetUrl(prefixFileUrlWithBackendUrl(optimizedCachingImage));
+
     stopCropping();
   };
 
@@ -87,12 +91,7 @@ export const PreviewBox = ({ asset, onDelete }) => {
             </UploadProgressWrapper>
           )}
 
-          <img
-            aria-hidden={isLoading}
-            ref={previewRef}
-            src={prefixFileUrlWithBackendUrl(asset.url)}
-            alt={asset.name}
-          />
+          <img aria-hidden={isLoading} ref={previewRef} src={assetUrl} alt={asset.name} />
         </Wrapper>
 
         <ActionRow

@@ -47,20 +47,20 @@ export const useCropImg = () => {
     }
   };
 
-  const produceFile = (name, mimeType, lastModifiedDate) => {
-    if (!cropperRef.current) {
-      return Promise.reject(
-        new Error(
-          'The cropped has not been instanciated. Make sure to crop the image before producing the corresponding file'
-        )
-      );
-    }
+  const produceFile = (name, mimeType, lastModifiedDate) =>
+    new Promise((resolve, reject) => {
+      if (!cropperRef.current) {
+        return reject(
+          new Error(
+            'The cropped has not been instanciated. Make sure to crop the image before producing the corresponding file'
+          )
+        );
+      }
 
-    const canvas = cropperRef.current.getCroppedCanvas();
+      const canvas = cropperRef.current.getCroppedCanvas();
 
-    return new Promise(resolve =>
-      canvas.toBlob(
-        async blob => {
+      return canvas.toBlob(
+        blob => {
           resolve(
             new File([blob], name, {
               type: mimeType,
@@ -70,9 +70,8 @@ export const useCropImg = () => {
         },
         mimeType,
         QUALITY
-      )
-    );
-  };
+      );
+    });
 
   return { crop, produceFile, stopCropping, isCropping, ...size };
 };
